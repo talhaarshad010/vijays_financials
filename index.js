@@ -8,11 +8,12 @@ import App from './App';
 import Toast from 'react-native-toast-message';
 import {Provider} from 'react-redux';
 import {store} from './src/store/store';
+import Modes from './src/screens/Modes';
 
 const Appss = () => {
   return (
     <Provider store={store}>
-      <App />
+      <Modes />
       <Toast position="top" />
     </Provider>
   );

@@ -2,13 +2,17 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from '../screens/logIn';
 import SignUp from '../screens/signUp';
+import RecoveryPassword from '../screens/RecoveryPassword';
+import OTP from '../screens/otp';
 const Stack = createNativeStackNavigator();
 
-const MainStack = () => (
+const AuthStack = () => (
   <Stack.Navigator screenOptions={{headerShown: false}}>
     <Stack.Screen name="Login" component={Login} />
-    <Stack.Screen name="signUp" component={SignUp} />
+    <Stack.Screen name="SignUp" component={SignUp} />
+    <Stack.Screen name="RecoveryPassword" component={RecoveryPassword} />
+    <Stack.Screen name="OTP" component={OTP} />
   </Stack.Navigator>
 );
 
-export default MainStack;
+export default AuthStack;

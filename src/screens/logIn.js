@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import React, {useState} from 'react';
 import {
@@ -23,6 +24,7 @@ import {userLOGIN} from '../store/Reducers/AuthSlice';
 import ToastMessage from '../Hooks/ToastMessage';
 import {checkMinLength, validateEmail} from '../utils/validations';
 import {useLoginMutation} from '../store/Reducers/CallingProducts';
+import {logo} from '../utils/ImageLinks';
 const LogIn = ({}) => {
   const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -82,7 +84,15 @@ const LogIn = ({}) => {
       <SafeAreaView>
         <ScrollView>
           <View style={styles.cont_01}>
-            <View>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: responsiveHeight(5),
+              }}>
+              <Image style={styles.Logo} source={logo} />
+            </View>
+            {/* <View>
               <MyText
                 fontSize={responsiveFontSize(3.5)}
                 fontWeight={'bold'}
@@ -98,7 +108,14 @@ const LogIn = ({}) => {
                 textStyle={styles.slogan}
                 text={'Welcome Back You’ve Been Missed!'}
               />
-            </View>
+            </View> */}
+            {/* <MyText
+              fontSize={responsiveFontSize(3.5)}
+              fontWeight={'bold'}
+              color={Colors.black}
+              textStyle={styles.HelloAgain}
+              text={'SignIn'}
+            /> */}
             <View style={styles.cont_01_01}>
               <View>
                 <MyTextInput
@@ -186,7 +203,11 @@ const styles = StyleSheet.create({
   header: {marginTop: responsiveHeight(2)},
   cont_01: {
     flex: 1,
-    marginVertical: responsiveHeight(4),
+  },
+  Logo: {
+    height: responsiveHeight(25),
+    width: responsiveWidth(100),
+    resizeMode: 'cover',
   },
   HelloAgain: {
     fontSize: responsiveFontSize(3),
@@ -200,13 +221,15 @@ const styles = StyleSheet.create({
   },
   cont_01_01: {
     marginHorizontal: responsiveWidth(10),
-    marginVertical: responsiveHeight(7),
+    marginVertical: responsiveHeight(3),
   },
   cont_02: {
     flexDirection: 'row',
     bottom: 0,
     alignSelf: 'center',
-    marginTop: responsiveHeight(19),
+    marginTop: responsiveHeight(17),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   btn: {
