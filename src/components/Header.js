@@ -20,24 +20,18 @@ const MyHeader = ({
 }) => {
   return (
     <View style={{...styles.header, ...style}}>
-      <View style={styles.child_01}>
-        {leftView && (
-          <TouchableOpacity onPress={onPressleft} style={styles.left}>
-            {leftView}
-          </TouchableOpacity>
-        )}
-        <MyText
-          color={Colors.black}
-          fontWeight={'bold'}
-          text={ScreenName}
-          fontSize={responsiveFontSize(2.5)}
-          textStyle={styles.ScreenName}
-        />
-      </View>
+      {leftView && (
+        <TouchableOpacity onPress={onPressleft}>{leftView}</TouchableOpacity>
+      )}
+      <MyText
+        color={Colors.black}
+        fontWeight={'bold'}
+        text={ScreenName}
+        fontSize={responsiveFontSize(2.5)}
+        textStyle={styles.ScreenName}
+      />
       {rightView ? (
-        <TouchableOpacity onPress={onPressright} style={styles.right}>
-          {rightView}
-        </TouchableOpacity>
+        <TouchableOpacity onPress={onPressright}>{rightView}</TouchableOpacity>
       ) : (
         <Text>{rightText}</Text>
       )}
@@ -54,16 +48,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: responsiveWidth(3),
     paddingVertical: responsiveHeight(1),
-  },
-  child_01: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: responsiveWidth(55),
+    width: '100%',
   },
   ScreenName: {
     color: Colors.black,
-    fontSize: responsiveFontSize(2.5),
     fontWeight: '600',
   },
 });
