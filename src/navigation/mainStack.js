@@ -1,13 +1,13 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Login from '../screens/logIn';
-import SignUp from '../screens/signUp.trsx';
+import Modes from '../screens/Modes';
+import FinanceData from '../screens/financeData';
 const Stack = createNativeStackNavigator();
 
 const MainStack = () => (
   <Stack.Navigator screenOptions={{headerShown: false}}>
-    <Stack.Screen name="Login" component={Login} />
-    <Stack.Screen name="signUp" component={SignUp} />
+    <Stack.Screen name="Modes" component={Modes} />
+    <Stack.Screen name="FinanceData" component={FinanceData} />
   </Stack.Navigator>
 );
 

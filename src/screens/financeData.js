@@ -21,6 +21,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import MyTextInput from '../components/TextInputComponent';
 import Colors from '../Styles/Colors';
 import MyText from '../components/TextComponent';
+import MyButton from '../components/CustomButton';
 
 const FinanceData = () => {
   const [companyName, setCompanyName] = useState('');
@@ -56,7 +57,7 @@ const FinanceData = () => {
                 placeholder={'Company Name'}
                 feildName={'Company Name'}
                 inputtype={'default'}
-                textstyle={{fontSize: responsiveFontSize(1.5)}}
+                textstyle={{fontSize: responsiveFontSize(1.7)}}
                 value={companyName}
                 onChangeText={text =>
                   setCompanyName(txt => ({
@@ -81,8 +82,18 @@ const FinanceData = () => {
                 <RNPickerSelect
                   onValueChange={value => setBusinessType(value)}
                   items={businessTypes}
-                  placeholder={{label: 'Select Business Type', value: null}}
-                  style={pickerSelectStyles}
+                  placeholder={{
+                    label: 'Select Business Type',
+                    value: null,
+                    color: 'gray', // Optional: you can change the color here
+                  }}
+                  style={{
+                    ...pickerSelectStyles,
+                    placeholder: {
+                      fontSize: responsiveFontSize(1.9),
+                      color: 'gray', // Optional: change the color if needed
+                    },
+                  }}
                   value={businessType}
                 />
               </View>
@@ -90,7 +101,7 @@ const FinanceData = () => {
                 placeholder={'Register Address'}
                 feildName={'Register Address'}
                 inputtype={'default'}
-                textstyle={{fontSize: responsiveFontSize(1.5)}}
+                textstyle={{fontSize: responsiveFontSize(1.7)}}
                 value={companyName}
                 onChangeText={text =>
                   setCompanyName(txt => ({
@@ -103,7 +114,7 @@ const FinanceData = () => {
                 placeholder={'Email'}
                 feildName={'Email'}
                 inputtype={'email-address'}
-                textstyle={{fontSize: responsiveFontSize(1.5)}}
+                textstyle={{fontSize: responsiveFontSize(1.7)}}
                 value={email}
                 onChangeText={text =>
                   setEmail(txt => ({
@@ -116,7 +127,7 @@ const FinanceData = () => {
                 placeholder={'Phone Number'}
                 feildName={'Phone Number'}
                 inputtype={'number-pad'}
-                textstyle={{fontSize: responsiveFontSize(1.5)}}
+                textstyle={{fontSize: responsiveFontSize(1.7)}}
                 value={phoneNumber}
                 onChangeText={text =>
                   setPhoneNumber(txt => ({
@@ -129,7 +140,7 @@ const FinanceData = () => {
                 placeholder={'NTN Number'}
                 feildName={'NTN Number'}
                 inputtype={'number-pad'}
-                textstyle={{fontSize: responsiveFontSize(1.5)}}
+                textstyle={{fontSize: responsiveFontSize(1.7)}}
                 value={ntnNumber}
                 onChangeText={text =>
                   setNtnNumber(txt => ({
@@ -142,7 +153,7 @@ const FinanceData = () => {
                 placeholder={'Sales Tax Number (Optional)'}
                 feildName={'Sales Tax Number'}
                 inputtype={'number-pad'}
-                textstyle={{fontSize: responsiveFontSize(1.5)}}
+                textstyle={{fontSize: responsiveFontSize(1.7)}}
                 value={salesTaxNumber}
                 onChangeText={text =>
                   setSalesTaxNumber(txt => ({
@@ -155,7 +166,7 @@ const FinanceData = () => {
                 placeholder={'City'}
                 feildName={'City'}
                 inputtype={'default'}
-                textstyle={{fontSize: responsiveFontSize(1.5)}}
+                textstyle={{fontSize: responsiveFontSize(1.7)}}
                 value={city}
                 onChangeText={text =>
                   setCity(txt => ({
@@ -168,7 +179,7 @@ const FinanceData = () => {
                 placeholder={'Country'}
                 feildName={'Country'}
                 inputtype={'default'}
-                textstyle={{fontSize: responsiveFontSize(1.5)}}
+                textstyle={{fontSize: responsiveFontSize(1.7)}}
                 value={country}
                 onChangeText={text =>
                   setCountry(txt => ({
@@ -181,7 +192,7 @@ const FinanceData = () => {
                 placeholder={'Website'}
                 feildName={'Website'}
                 inputtype={'url'}
-                textstyle={{fontSize: responsiveFontSize(1.5)}}
+                textstyle={{fontSize: responsiveFontSize(1.7)}}
                 value={website}
                 onChangeText={text =>
                   setWebsite(txt => ({
@@ -189,6 +200,14 @@ const FinanceData = () => {
                     website: text,
                   }))
                 }
+              />
+            </View>
+            <View style={styles.btnContainer}>
+              <MyButton
+                text={'Submit'}
+                fontWeight={'bold'}
+                backgroundColor={Colors.blue}
+                color={Colors.white}
               />
             </View>
           </View>
@@ -207,7 +226,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   formContainer: {
-    padding: 20,
+    paddingHorizontal: responsiveWidth(3),
   },
   feildName: {
     color: Colors.black,
@@ -215,58 +234,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginVertical: responsiveHeight(1.5),
   },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 15,
-    paddingHorizontal: 10,
-  },
   pickerContainer: {
     borderRadius: responsiveWidth(10),
     overflow: 'hidden',
     elevation: 2,
     backgroundColor: Colors.whiteinput,
   },
+  btnContainer: {
+    marginVertical: responsiveHeight(3),
+    paddingHorizontal: responsiveWidth(3),
+  },
 });
-
-// const pickerSelectStyles = StyleSheet.create({
-//   inputIOS: {
-//     height: responsiveHeight(7),
-//     borderRadius: responsiveWidth(10),
-//     paddingHorizontal: responsiveWidth(4),
-//     backgroundColor: Colors.whiteinput,
-//     color: Colors.black,
-//     elevation: 2,
-//     fontSize: responsiveFontSize(2),
-//     fontWeight: 'bold',
-//   },
-
-//   inputAndroid: {
-//     height: responsiveHeight(7),
-//     borderRadius: responsiveWidth(10),
-//     paddingHorizontal: responsiveWidth(4),
-//     backgroundColor: Colors.whiteinput,
-//     color: Colors.black,
-//     elevation: 2,
-//     fontSize: responsiveFontSize(2),
-//   },
-//   iconContainer: {
-//     top: 10,
-//     right: 12,
-//   },
-//   //   height: responsiveHeight(6),
-
-//   //   flexDirection: 'row',
-//   //   justifyContent: 'space-between',
-//   //   alignItems: 'center',
-//   //   paddingHorizontal: responsiveWidth(4),
-//   //   backgroundColor: Colors.whiteinput,
-//   //   elevation: 4,
-//   //   marginVertical: 6,
-//   // },
-// });
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     height: responsiveHeight(7),

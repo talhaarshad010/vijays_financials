@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   textstyle: {
-    width: responsiveWidth(50),
+    width: responsiveWidth(70),
     flex: 1,
     color: Colors.black,
   },
