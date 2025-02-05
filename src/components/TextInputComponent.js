@@ -19,6 +19,7 @@ const MyTextInput = ({
   inputstyle = {},
   textstyle = {},
   placeholder,
+  inputtype,
   onChangeText,
   value,
   placeholderTextColor,
@@ -55,6 +56,7 @@ const MyTextInput = ({
               allowFontScaling={false}
               secureTextEntry={isShow && true}
               cursorColor={'black'}
+              keyboardType={inputtype}
               placeholder={placeholder}
               onChangeText={onChangeText}
               value={value}
