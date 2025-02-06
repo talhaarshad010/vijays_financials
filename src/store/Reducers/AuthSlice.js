@@ -1,28 +1,20 @@
 import {createSlice} from '@reduxjs/toolkit';
-import localStorage from 'redux-persist/es/storage';
-
 const initialState = {
-  isName: null,
-  isEmail: null,
-  isToken: null,
+  data: {},
 };
-const Auth = createSlice({
-  name: 'AB',
-  initialState: initialState,
-  reducers: {
-    userLOGIN(state, payload) {
-      state.isName = payload.payload.userName;
-      state.isEmail = payload.payload.userEmail;
-      state.isToken = payload.payload.isToken;
-    },
 
-    userLOGOUT(state) {
-      state.isName = null;
-      state.isEmail = null;
-      state.isToken = null;
-      localStorage.removeItem('authToken');
+const authSlice = createSlice({
+  name: 'Auth',
+  initialState,
+  reducers: {
+    IsLogin: (state, action) => {
+      console.log('dsdsd', action);
+      state.data = action.payload;
+    },
+    SignOut: (state, action) => {
+      state.data = null;
     },
   },
 });
-export const {userLOGIN, userLOGOUT} = Auth.actions;
-export default Auth.reducer;
+export const {IsLogin, SignOut} = authSlice.actions;
+export default authSlice.reducer;

@@ -13,7 +13,7 @@ import MyText from '../components/TextComponent';
 import MyTextInput from '../components/TextInputComponent';
 import MyButton from '../components/CustomButton';
 import ToastMessage from '../Hooks/ToastMessage';
-import {useForgetPasswordMutation} from '../store/API/CallingProducts';
+import {useForgetPasswordMutation} from '../store/API/userAuth';
 const RecoveryPassword = ({navigation}) => {
   const [email, setEmail] = useState('');
   const {Toasts} = ToastMessage();

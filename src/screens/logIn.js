@@ -4,7 +4,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  ActivityIndicator,
   Image,
 } from 'react-native';
 import React, {useState} from 'react';
@@ -20,21 +19,20 @@ import MyTextInput from '../components/TextInputComponent';
 import MyButton from '../components/CustomButton';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
-import {userLOGIN} from '../store/Reducers/AuthSlice';
 import ToastMessage from '../Hooks/ToastMessage';
 import {checkMinLength, validateEmail} from '../utils/validations';
-import {useLoginMutation} from '../store/API/CallingProducts';
+import {useSignInMutation} from '../store/API/userAuth';
 import {logo} from '../utils/ImageLinks';
+import {IsLogin} from '../store/Reducers/AuthSlice';
 const LogIn = ({}) => {
-  const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const {Toasts} = ToastMessage();
   const [value, setvalue] = useState({
-    Email: 'Test@gmail.com',
+    Email: 'tester2@gmail.com',
     Pass: '123456789',
   });
   const navigation = useNavigation();
-  const [Login] = useLoginMutation();
+  const [Login, {isLoading}] = useSignInMutation();
   const dd = useSelector(state => state);
   console.log('Redux', dd);
 
@@ -42,8 +40,8 @@ const LogIn = ({}) => {
   const isUserLogin = async () => {
     try {
       const payload = {
-        userEmail: value.Email,
-        userPassword: value.Pass,
+        email: value.Email,
+        password: value.Pass,
       };
       if (!validateEmail(value.Email)) {
         return Toasts(
@@ -63,19 +61,16 @@ const LogIn = ({}) => {
         );
       }
       const res = await Login(payload);
-      if (res?.data?.data) {
-        Toasts('Loged In', 'User logedIn Successfully', 'success', 4000);
-      }
-      const {userName, userEmail, isToken} = res.data.data;
 
-      let payload1 = {
-        userName: userName,
-        userEmail: userEmail,
-        isToken: isToken,
-      };
-      dispatch(userLOGIN(payload1));
+      if (res?.data) {
+        Toasts('Loged In', res.data?.message, 'success', 2000);
+        dispatch(IsLogin({token: res?.data.token}));
+      } else if (res?.error) {
+        Toasts('Error', res.error?.data?.message, 'error', 2000);
+      }
     } catch (error) {
-      Toasts('Error', data.error, 'error', 4000);
+      console.log('error in signIn:', error);
+      // Toasts('Error', error, 'error', 2000);
     }
   };
 
@@ -159,21 +154,15 @@ const LogIn = ({}) => {
               </View>
 
               <View>
-                {isLoading ? (
-                  <View>
-                    <ActivityIndicator size={'large'} color={Colors.blue} />
-                  </View>
-                ) : (
-                  <MyButton
-                    color={Colors.white}
-                    fontWeight={'bold'}
-                    onPress={() => {
-                      isUserLogin();
-                    }}
-                    style={styles.btn}
-                    text={'Sign In'}
-                  />
-                )}
+                <MyButton
+                  isLoading={isLoading}
+                  color={Colors.white}
+                  fontWeight={'bold'}
+                  style={styles.btn}
+                  textstyle={{fontWeight: 'bold'}}
+                  text={'Sign In'}
+                  onPress={isUserLogin}
+                />
               </View>
             </View>
             <View style={styles.cont_02}>

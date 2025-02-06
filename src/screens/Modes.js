@@ -16,6 +16,7 @@ import WrapperContainer from '../components/WrapperContainer';
 import MyText from '../components/TextComponent';
 import {logo} from '../utils/ImageLinks';
 import Colors from '../Styles/Colors';
+import MyButton from '../components/CustomButton';
 const Modes = ({}) => {
   const [isNormal, setNormal] = useState(false);
   const [isPro, setPro] = useState(false);
@@ -62,6 +63,7 @@ const Modes = ({}) => {
                 <TouchableOpacity
                   onPress={() => {
                     setNormal(!isNormal);
+                    setPro(false);
                   }}
                   style={{
                     paddingHorizontal: responsiveWidth(3),
@@ -72,6 +74,7 @@ const Modes = ({}) => {
                   <TouchableOpacity
                     onPress={() => {
                       setNormal(!isNormal);
+                      setPro(false);
                     }}
                     style={{
                       height: responsiveWidth(6),
@@ -83,7 +86,7 @@ const Modes = ({}) => {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}>
-                    {!isNormal ? (
+                    {isNormal ? (
                       <Image
                         source={require('../assets/Images/tick.png')}
                         style={{
@@ -122,6 +125,7 @@ const Modes = ({}) => {
                 <TouchableOpacity
                   onPress={() => {
                     setPro(!isPro);
+                    setNormal(false);
                   }}
                   style={{
                     paddingHorizontal: responsiveWidth(3),
@@ -132,6 +136,7 @@ const Modes = ({}) => {
                   <TouchableOpacity
                     onPress={() => {
                       setPro(!isPro);
+                      setNormal(false);
                     }}
                     style={{
                       height: responsiveWidth(6),
@@ -143,7 +148,7 @@ const Modes = ({}) => {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}>
-                    {!isPro ? (
+                    {isPro ? (
                       <Image
                         source={require('../assets/Images/tick.png')}
                         style={{
@@ -163,6 +168,14 @@ const Modes = ({}) => {
                 />
               </View>
             </View>
+          </View>
+          <View style={{marginHorizontal: responsiveWidth(5)}}>
+            <MyButton
+              color={Colors.white}
+              backgroundColor={Colors.blue}
+              text={'Next'}
+              fontWeight={'bold'}
+            />
           </View>
         </ScrollView>
       </SafeAreaView>

@@ -1,4 +1,10 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {
   responsiveFontSize,
@@ -9,6 +15,7 @@ import Colors from '../Styles/Colors';
 import MyText from './TextComponent';
 
 const MyButton = ({
+  isLoading,
   text,
   onPress = () => {},
   style,
@@ -22,17 +29,21 @@ const MyButton = ({
     <TouchableOpacity
       onPress={onPress}
       style={{...styles.Container, backgroundColor, ...style}}>
-      <MyText
-        color={color}
-        fontSize={responsiveFontSize(2.5)}
-        fontWeight={fontWeight}
-        style={{...styles.textstyle, color: textColor, ...textstyle}}
-        text={text}
-        textStyle={{
-          color: Colors.white,
-          fontWeight: 'bold',
-        }}
-      />
+      {isLoading ? (
+        <ActivityIndicator size={'large'} color={Colors.white} />
+      ) : (
+        <MyText
+          color={color}
+          fontSize={responsiveFontSize(2.5)}
+          fontWeight={fontWeight}
+          style={{...styles.textstyle, color: textColor, ...textstyle}}
+          text={text}
+          textStyle={{
+            color: Colors.white,
+            fontWeight: 'bold',
+          }}
+        />
+      )}
     </TouchableOpacity>
   );
 };

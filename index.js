@@ -21,4 +21,4 @@ const Apps = () => {
   );
 };
 
-AppRegistry.registerComponent(appName, () => financeData);
+AppRegistry.registerComponent(appName, () => Apps);

@@ -13,7 +13,7 @@ import MyText from '../components/TextComponent';
 import MyTextInput from '../components/TextInputComponent';
 import MyButton from '../components/CustomButton';
 import ToastMessage from '../Hooks/ToastMessage';
-import {useVerifyOtpMutation} from '../store/API/CallingProducts';
+import {useVerifyOtpMutation} from '../store/API/userAuth';
 const OTP = ({navigation, route}) => {
   const {email} = route.params;
   const [otp, setOtp] = useState('');

@@ -2,7 +2,7 @@ import {configureStore} from '@reduxjs/toolkit';
 import {MMKV} from 'react-native-mmkv';
 import {persistReducer, persistStore} from 'redux-persist';
 import AllReducer from './Reducers';
-import {ProductsManagement} from './API/CallingProducts';
+import {Auth} from './API/userAuth';
 
 const storage = new MMKV();
 const reduxPersistStorage = {
@@ -25,7 +25,6 @@ const persistConfig = {
   key: 'root',
   storage: reduxPersistStorage,
   blacklist: [],
-  whitelist: [],
 };
 
 const persistedReducer = persistReducer(persistConfig, AllReducer);
@@ -35,6 +34,6 @@ export const store = configureStore({
   middleware: getdefaultMiddleware =>
     getdefaultMiddleware({
       serializableCheck: false,
-    }).concat(ProductsManagement.middleware),
+    }).concat(Auth.middleware),
 });
 export const persistore = persistStore(store);

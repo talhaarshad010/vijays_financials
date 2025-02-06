@@ -1,59 +1,58 @@
 import {fetchBaseQuery, createApi} from '@reduxjs/toolkit/query/react';
 import {API_BASE_URL} from '../../assets/config/urls';
 
-export const ProductsManagement = createApi({
-  reducerPath: 'products',
+export const Auth = createApi({
+  reducerPath: 'Authentication',
   baseQuery: fetchBaseQuery({baseUrl: API_BASE_URL}),
   endpoints: builder => ({
-    Login: builder.mutation({
+    SignUp: builder.mutation({
       query: userData => ({
-        url: '/UserLogin',
+        url: '/user/userSignup',
         method: 'POST',
         headers: 'content-type: application/json',
         body: userData,
       }),
     }),
 
-    Signup: builder.mutation({
+    SignIn: builder.mutation({
       query: userData => ({
-        url: '/UserSignup',
+        url: '/user/userSignin',
         method: 'POST',
         headers: 'content-type: application/json',
         body: userData,
       }),
     }),
 
-    ForgetPassword: builder.mutation({
+    SetMode: builder.mutation({
       query: userData => ({
-        url: '/ForgotPassword',
+        url: '/user/setMode',
         method: 'POST',
         headers: 'content-type: application/json',
         body: userData,
       }),
     }),
-    VerifyOtp: builder.mutation({
+    CreateCompany: builder.mutation({
       query: userData => ({
-        url: '/VerifyOtp',
+        url: '/user/createCompany',
         method: 'POST',
         headers: 'content-type: application/json',
         body: userData,
       }),
     }),
-    ConfirmPassword: builder.mutation({
-      query: userData => ({
-        url: '/UpdatePassword',
-        method: 'POST',
-        headers: 'content-type: application/json',
-        body: userData,
-      }),
-    }),
+    // ConfirmPassword: builder.mutation({
+    //   query: userData => ({
+    //     url: '/UpdatePassword',
+    //     method: 'POST',
+    //     headers: 'content-type: application/json',
+    //     body: userData,
+    //   }),
+    // }),
   }),
 });
 
 export const {
-  useLoginMutation,
-  useSignupMutation,
-  useForgetPasswordMutation,
-  useVerifyOtpMutation,
-  useConfirmPasswordMutation,
-} = ProductsManagement;
+  useSignUpMutation,
+  useSignInMutation,
+  useSetModeMutation,
+  useCreateCompanyMutation,
+} = Auth;

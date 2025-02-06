@@ -13,14 +13,16 @@ import MyText from '../components/TextComponent';
 import MyTextInput from '../components/TextInputComponent';
 import MyButton from '../components/CustomButton';
 import ToastMessage from '../Hooks/ToastMessage';
-import {useSignupMutation} from '../store/API/CallingProducts';
+import {useSignUpMutation} from '../store/API/userAuth';
 import {checkMinLength, validateEmail} from '../utils/validations';
-const SignUp = ({navigation}) => {
+import {useNavigation} from '@react-navigation/native';
+const SignUp = () => {
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const [Name, setName] = useState('');
   const {Toasts} = ToastMessage();
-  const [Signup, {isLoading}] = useSignupMutation();
+  const [Signup, {isLoading}] = useSignUpMutation();
+  const navigation = useNavigation();
 
   //--------------------- using RTK QUERY function---------------------
   const isUserSignup = async () => {
@@ -48,22 +50,20 @@ const SignUp = ({navigation}) => {
       }
 
       const payload = {
-        userName: Name,
-        userEmail: email,
-        userPassword: password,
+        name: Name,
+        email: email,
+        password: password,
       };
       const res = await Signup(payload);
-      console.log('first', res);
+      console.log('signUp', res);
       setemail('');
       setpassword('');
       setName('');
       if (res.error) {
-        Toasts('Info', res.error.data.error, 'info', 2000);
+        Toasts('Info', res?.error?.data?.message, 'info', 2000);
       } else {
-        Toasts('Info', 'User Created Successfully', 'info', 2000);
-      }
-      if (!res.error) {
-        navigation.navigate('LogIn');
+        Toasts('Info', res?.data?.message, 'info', 2000);
+        navigation.navigate('Login');
       }
     } catch (error) {
       console.log('Error', error);
