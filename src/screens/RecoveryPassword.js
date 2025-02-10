@@ -1,4 +1,4 @@
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {Image, ScrollView, StyleSheet, View} from 'react-native';
 import React, {useState} from 'react';
 import {
   responsiveFontSize,
@@ -14,10 +14,13 @@ import MyTextInput from '../components/TextInputComponent';
 import MyButton from '../components/CustomButton';
 import ToastMessage from '../Hooks/ToastMessage';
 import {useForgetPasswordMutation} from '../store/API/userAuth';
-const RecoveryPassword = ({navigation}) => {
+import {useNavigation} from '@react-navigation/native';
+import {logo} from '../utils/ImageLinks';
+const RecoveryPassword = () => {
   const [email, setEmail] = useState('');
   const {Toasts} = ToastMessage();
-  const [ForgetPassword, {isLoading}] = useForgetPasswordMutation();
+  const navigation = useNavigation();
+  // const [ForgetPassword, {isLoading}] = useForgetPasswordMutation();
   const CodeSender = async () => {
     if (!email) {
       Alert.alert('Error', 'Please enter an email');
@@ -119,17 +122,16 @@ const RecoveryPassword = ({navigation}) => {
 
   return (
     <WrapperContainer>
-      <MyHeader
-        onPressleft={() => {
-          navigation.goBack();
-        }}
-        style={styles.header}
-        leftView={
-          <Entypo name="chevron-small-left" size={40} color={Colors.black} />
-        }
-      />
       <ScrollView>
         <View style={styles.cont_01}>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: responsiveHeight(5),
+            }}>
+            <Image style={styles.Logo} source={logo} />
+          </View>
           <View style={styles.recover}>
             <MyText
               color={Colors.black}
@@ -161,7 +163,7 @@ const RecoveryPassword = ({navigation}) => {
             <View>
               <MyButton
                 onPress={() => {
-                  CodeSender();
+                  navigation.navigate('OTP');
                 }}
                 fontWeight={'bold'}
                 color={Colors.white}
@@ -214,5 +216,10 @@ const styles = StyleSheet.create({
 
   btn: {
     marginTop: responsiveHeight(4),
+  },
+  Logo: {
+    height: responsiveHeight(25),
+    width: responsiveWidth(100),
+    resizeMode: 'cover',
   },
 });

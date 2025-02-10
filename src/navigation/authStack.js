@@ -5,6 +5,7 @@ import SignUp from '../screens/signUp';
 import RecoveryPassword from '../screens/RecoveryPassword';
 import OTP from '../screens/otp';
 import Modes from '../screens/Modes';
+import ConfirmPassword from '../screens/confirmPassword';
 const Stack = createNativeStackNavigator();
 
 const AuthStack = () => (
@@ -14,6 +15,7 @@ const AuthStack = () => (
     <Stack.Screen name="Modes" component={Modes} />
     <Stack.Screen name="RecoveryPassword" component={RecoveryPassword} />
     <Stack.Screen name="OTP" component={OTP} />
+    <Stack.Screen name="ConfirmPassword" component={ConfirmPassword} />
   </Stack.Navigator>
 );
 

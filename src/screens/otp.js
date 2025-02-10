@@ -1,4 +1,4 @@
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {Image, ScrollView, StyleSheet, View} from 'react-native';
 import React, {useState} from 'react';
 import {
   responsiveFontSize,
@@ -14,12 +14,13 @@ import MyTextInput from '../components/TextInputComponent';
 import MyButton from '../components/CustomButton';
 import ToastMessage from '../Hooks/ToastMessage';
 import {useVerifyOtpMutation} from '../store/API/userAuth';
+import {logo} from '../utils/ImageLinks';
 const OTP = ({navigation, route}) => {
-  const {email} = route.params;
+  // const {email} = route.params;
   const [otp, setOtp] = useState('');
-  const [Email, setEmail] = useState(email);
+  const [Email, setEmail] = useState();
   const {Toasts} = ToastMessage();
-  const [VerifyOtp] = useVerifyOtpMutation();
+  // const [VerifyOtp] = useVerifyOtpMutation();
 
   // const CodeVerify = async () => {
   //   try {
@@ -125,18 +126,20 @@ const OTP = ({navigation, route}) => {
   };
 
   return (
-    <WrapperContainer>
-      <MyHeader
-        onPressleft={() => {
-          navigation.goBack();
-        }}
-        style={styles.header}
-        leftView={
-          <Entypo name="chevron-small-left" size={40} color={Colors.black} />
-        }
-      />
+    <WrapperContainer
+      style={{
+        backgroundColor: Colors.white,
+      }}>
       <ScrollView>
         <View style={styles.cont_01}>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: responsiveHeight(5),
+            }}>
+            <Image style={styles.Logo} source={logo} />
+          </View>
           <View style={styles.recover}>
             <MyText
               color={Colors.black}
@@ -165,7 +168,8 @@ const OTP = ({navigation, route}) => {
             <View>
               <MyButton
                 onPress={() => {
-                  CodeVerify();
+                  // CodeVerify();
+                  navigation.navigate('ConfirmPassword');
                 }}
                 fontWeight={'bold'}
                 color={Colors.white}
@@ -187,7 +191,7 @@ const styles = StyleSheet.create({
   header: {marginTop: responsiveHeight(2)},
   cont_01: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     marginVertical: responsiveHeight(4),
   },
   recover: {
@@ -218,5 +222,10 @@ const styles = StyleSheet.create({
 
   btn: {
     marginTop: responsiveHeight(4),
+  },
+  Logo: {
+    height: responsiveHeight(25),
+    width: responsiveWidth(100),
+    resizeMode: 'cover',
   },
 });
