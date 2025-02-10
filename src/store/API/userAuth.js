@@ -55,13 +55,13 @@ export const Auth = createApi({
         method: 'GET',
       }),
     }),
-    // GetCompanies: builder.query({
-    //   query: () => ({
-    //     url: '/user/getCompanies',
-    //     method: 'GET',
-    //     credentials: 'include',
-    //   }),
-    // }),
+    ForgetPassword: builder.mutation({
+      query: userData => ({
+        url: '/user/ForgotPassword',
+        method: 'POST',
+        body: userData,
+      }),
+    }),
   }),
 });
 
@@ -71,5 +71,5 @@ export const {
   useSetModeMutation,
   useCreateCompanyMutation,
   useGetCompaniesMutation,
-  // useGetCompaniesQuery,
+  useForgetPasswordMutation,
 } = Auth;

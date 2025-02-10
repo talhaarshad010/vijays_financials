@@ -20,7 +20,7 @@ const RecoveryPassword = () => {
   const [email, setEmail] = useState('');
   const {Toasts} = ToastMessage();
   const navigation = useNavigation();
-  // const [ForgetPassword, {isLoading}] = useForgetPasswordMutation();
+  const [ForgetPassword, {isLoading}] = useForgetPasswordMutation();
   const CodeSender = async () => {
     if (!email) {
       Alert.alert('Error', 'Please enter an email');
@@ -28,13 +28,14 @@ const RecoveryPassword = () => {
     }
     try {
       let payload = {
-        userEmail: email,
+        email: email,
       };
       const response = await ForgetPassword(payload);
-      Toasts('Otp Sent!', response?.data?.message, 'info', 5000);
-      navigation.navigate('Otp', {
-        email: email,
-      });
+      console.log('responce in recovery password:', response);
+      // Toasts('Otp Sent!', response?.data?.message, 'info', 5000);
+      // navigation.navigate('Otp', {
+      //   email: email,
+      // });
     } catch (error) {
       Toasts('Error', 'Email Not Exist', 'error', 5000);
     }
@@ -163,7 +164,8 @@ const RecoveryPassword = () => {
             <View>
               <MyButton
                 onPress={() => {
-                  navigation.navigate('OTP');
+                  CodeSender();
+                  // navigation.navigate('OTP');
                 }}
                 fontWeight={'bold'}
                 color={Colors.white}
