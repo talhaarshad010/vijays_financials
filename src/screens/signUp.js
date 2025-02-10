@@ -72,7 +72,7 @@ const SignUp = () => {
 
   return (
     <WrapperContainer>
-      <View>
+      {/* <View>
         <MyHeader
           onPressleft={() => {
             navigation.goBack();
@@ -82,7 +82,7 @@ const SignUp = () => {
             <Entypo name="chevron-small-left" size={40} color={Colors.black} />
           }
         />
-      </View>
+      </View> */}
       <ScrollView>
         <View style={styles.cont_01}>
           <View>

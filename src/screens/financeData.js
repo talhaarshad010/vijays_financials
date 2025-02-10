@@ -1,17 +1,7 @@
 import React, {useState} from 'react';
-import {
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  ScrollView,
-} from 'react-native';
+import {SafeAreaView, StyleSheet, View, ScrollView} from 'react-native';
 import WrapperContainer from '../components/WrapperContainer';
 import MyHeader from '../components/Header';
-import {BackIcon} from '../utils/shortCuts';
-import {logo} from '../utils/ImageLinks';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -22,6 +12,9 @@ import MyTextInput from '../components/TextInputComponent';
 import Colors from '../Styles/Colors';
 import MyText from '../components/TextComponent';
 import MyButton from '../components/CustomButton';
+import {useNavigation} from '@react-navigation/native';
+import {useCreateCompanyMutation} from '../store/API/userAuth';
+import ToastMessage from '../Hooks/ToastMessage';
 
 const FinanceData = () => {
   const [companyName, setCompanyName] = useState('');
@@ -31,8 +24,16 @@ const FinanceData = () => {
   const [salesTaxNumber, setSalesTaxNumber] = useState('');
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
+  const [province, setProvince] = useState('');
   const [website, setWebsite] = useState('');
   const [businessType, setBusinessType] = useState('');
+  const [registerAddress, setRegisterAddress] = useState('');
+
+  const navigation = useNavigation();
+
+  const [CREATE_COMPANY, {isLoading}] = useCreateCompanyMutation();
+
+  const {Toasts} = ToastMessage();
 
   const businessTypes = [
     {label: 'Retail', value: 'retail'},
@@ -42,16 +43,76 @@ const FinanceData = () => {
     {label: 'Other', value: 'other'},
   ];
 
+  const handleSubmit = async () => {
+    try {
+      let payload = {
+        companyName: companyName,
+        businessType: businessType,
+        registerAddress: registerAddress,
+        email: email,
+        phoneNumber: phoneNumber,
+        NtnNumber: ntnNumber,
+        salesTaxNumber: salesTaxNumber,
+        country: country,
+        province: province,
+        city: city,
+      };
+      const res = await CREATE_COMPANY(payload);
+      console.log('responce in create company:', res);
+      if (res?.data) {
+        Toasts('Companyy Added!', res.data?.message, 'success', 4000);
+        navigation.replace('Home');
+        (companyName = null),
+          (businessType = null),
+          (registerAddress = null),
+          (email = null),
+          (phoneNumber = null),
+          (ntnNumber = null),
+          (salesTaxNumber = null),
+          (country = null),
+          (province = null),
+          (city = null);
+      }
+      if (res?.error) {
+        Toasts(
+          'Invalid Information!',
+          res?.error?.data?.message,
+          'error',
+          4000,
+        );
+      }
+    } catch (error) {
+      console.log('error in create comapny:', error);
+    }
+  };
+
   return (
     <WrapperContainer>
       <SafeAreaView style={{flex: 1}}>
+        <View style={styles.btnContainer}>
+          <MyButton
+            isLoading={isLoading}
+            onPress={() => {
+              handleSubmit();
+            }}
+            text={'Submit'}
+            fontWeight={'bold'}
+            backgroundColor={Colors.blue}
+            color={Colors.white}
+          />
+        </View>
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
-          <View style={{flex: 1}}>
-            <MyHeader
-              rightView={<Image source={logo} style={styles.Logo} />}
-              leftView={BackIcon}
-              ScreenName={'Add Company'}
-            />
+          <View style={{flex: 1, marginBottom: responsiveHeight(13)}}>
+            <View>
+              <MyHeader
+                onPressleft={() => {
+                  navigation.goBack();
+                }}
+                showLeftIcon={true}
+                MarginLeft={responsiveWidth(5)}
+                ScreenName={'Add Company'}
+              />
+            </View>
             <View style={styles.formContainer}>
               <MyTextInput
                 placeholder={'Company Name'}
@@ -59,19 +120,16 @@ const FinanceData = () => {
                 inputtype={'default'}
                 textstyle={{fontSize: responsiveFontSize(1.7)}}
                 value={companyName}
-                onChangeText={text =>
-                  setCompanyName(txt => ({
-                    ...txt,
-                    companyName: text,
-                  }))
-                }
+                onChangeText={text => {
+                  setCompanyName(text);
+                }}
               />
               <MyText
                 color={Colors.black}
                 fontWeight={'bold'}
                 fontSize={responsiveFontSize(2.2)}
                 style={styles.feildName}
-                text={'Buisness Type'}
+                text={'Business Type'}
                 textStyle={{
                   fontWeight: 'bold',
                   fontSize: responsiveFontSize(2),
@@ -80,35 +138,32 @@ const FinanceData = () => {
               />
               <View style={styles.pickerContainer}>
                 <RNPickerSelect
-                  onValueChange={value => setBusinessType(value)}
+                  onValueChange={setBusinessType}
                   items={businessTypes}
                   placeholder={{
-                    label: 'Select Business Type',
+                    label: 'Select Business Type (Optional)',
                     value: null,
-                    color: 'gray', // Optional: you can change the color here
+                    color: 'gray',
                   }}
                   style={{
                     ...pickerSelectStyles,
                     placeholder: {
                       fontSize: responsiveFontSize(1.9),
-                      color: 'gray', // Optional: change the color if needed
+                      color: 'gray',
                     },
                   }}
                   value={businessType}
                 />
               </View>
               <MyTextInput
-                placeholder={'Register Address'}
+                placeholder={'Register Address (Optional)'}
                 feildName={'Register Address'}
                 inputtype={'default'}
                 textstyle={{fontSize: responsiveFontSize(1.7)}}
-                value={companyName}
-                onChangeText={text =>
-                  setCompanyName(txt => ({
-                    ...txt,
-                    companyName: text,
-                  }))
-                }
+                value={registerAddress}
+                onChangeText={text => {
+                  setRegisterAddress(text);
+                }}
               />
               <MyTextInput
                 placeholder={'Email'}
@@ -116,25 +171,19 @@ const FinanceData = () => {
                 inputtype={'email-address'}
                 textstyle={{fontSize: responsiveFontSize(1.7)}}
                 value={email}
-                onChangeText={text =>
-                  setEmail(txt => ({
-                    ...txt,
-                    email: text,
-                  }))
-                }
+                onChangeText={text => {
+                  setEmail(text);
+                }}
               />
               <MyTextInput
-                placeholder={'Phone Number'}
+                placeholder={'Phone Number (Cell ot Ptcl)'}
                 feildName={'Phone Number'}
                 inputtype={'number-pad'}
                 textstyle={{fontSize: responsiveFontSize(1.7)}}
                 value={phoneNumber}
-                onChangeText={text =>
-                  setPhoneNumber(txt => ({
-                    ...txt,
-                    phoneNumber: text,
-                  }))
-                }
+                onChangeText={text => {
+                  setPhoneNumber(text);
+                }}
               />
               <MyTextInput
                 placeholder={'NTN Number'}
@@ -142,12 +191,9 @@ const FinanceData = () => {
                 inputtype={'number-pad'}
                 textstyle={{fontSize: responsiveFontSize(1.7)}}
                 value={ntnNumber}
-                onChangeText={text =>
-                  setNtnNumber(txt => ({
-                    ...txt,
-                    ntnNumber: text,
-                  }))
-                }
+                onChangeText={text => {
+                  setNtnNumber(text);
+                }}
               />
               <MyTextInput
                 placeholder={'Sales Tax Number (Optional)'}
@@ -155,25 +201,9 @@ const FinanceData = () => {
                 inputtype={'number-pad'}
                 textstyle={{fontSize: responsiveFontSize(1.7)}}
                 value={salesTaxNumber}
-                onChangeText={text =>
-                  setSalesTaxNumber(txt => ({
-                    ...txt,
-                    salesTaxNumber: text,
-                  }))
-                }
-              />
-              <MyTextInput
-                placeholder={'City'}
-                feildName={'City'}
-                inputtype={'default'}
-                textstyle={{fontSize: responsiveFontSize(1.7)}}
-                value={city}
-                onChangeText={text =>
-                  setCity(txt => ({
-                    ...txt,
-                    city: text,
-                  }))
-                }
+                onChangeText={text => {
+                  setSalesTaxNumber(text);
+                }}
               />
               <MyTextInput
                 placeholder={'Country'}
@@ -181,12 +211,29 @@ const FinanceData = () => {
                 inputtype={'default'}
                 textstyle={{fontSize: responsiveFontSize(1.7)}}
                 value={country}
-                onChangeText={text =>
-                  setCountry(txt => ({
-                    ...txt,
-                    country: text,
-                  }))
-                }
+                onChangeText={text => {
+                  setCountry(text);
+                }}
+              />
+              <MyTextInput
+                placeholder={'Province'}
+                feildName={'Province'}
+                inputtype={'default'}
+                textstyle={{fontSize: responsiveFontSize(1.7)}}
+                value={province}
+                onChangeText={text => {
+                  setProvince(text);
+                }}
+              />
+              <MyTextInput
+                placeholder={'City'}
+                feildName={'City'}
+                inputtype={'default'}
+                textstyle={{fontSize: responsiveFontSize(1.7)}}
+                value={city}
+                onChangeText={text => {
+                  setCity(text);
+                }}
               />
               <MyTextInput
                 placeholder={'Website'}
@@ -194,20 +241,9 @@ const FinanceData = () => {
                 inputtype={'url'}
                 textstyle={{fontSize: responsiveFontSize(1.7)}}
                 value={website}
-                onChangeText={text =>
-                  setWebsite(txt => ({
-                    ...txt,
-                    website: text,
-                  }))
-                }
-              />
-            </View>
-            <View style={styles.btnContainer}>
-              <MyButton
-                text={'Submit'}
-                fontWeight={'bold'}
-                backgroundColor={Colors.blue}
-                color={Colors.white}
+                onChangeText={text => {
+                  setWebsite(text);
+                }}
               />
             </View>
           </View>
@@ -241,10 +277,15 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.whiteinput,
   },
   btnContainer: {
-    marginVertical: responsiveHeight(3),
-    paddingHorizontal: responsiveWidth(3),
+    marginVertical: responsiveHeight(2),
+    position: 'absolute',
+    left: responsiveWidth(5),
+    right: responsiveWidth(5),
+    bottom: responsiveWidth(0),
+    zIndex: 10,
   },
 });
+
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     height: responsiveHeight(7),

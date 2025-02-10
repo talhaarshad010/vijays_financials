@@ -27,6 +27,7 @@ const MyButton = ({
 }) => {
   return (
     <TouchableOpacity
+      activeOpacity={1}
       onPress={onPress}
       style={{...styles.Container, backgroundColor, ...style}}>
       {isLoading ? (

@@ -1,15 +1,28 @@
 import {fetchBaseQuery, createApi} from '@reduxjs/toolkit/query/react';
 import {API_BASE_URL} from '../../assets/config/urls';
+import {store} from '../store';
 
 export const Auth = createApi({
   reducerPath: 'Authentication',
-  baseQuery: fetchBaseQuery({baseUrl: API_BASE_URL}),
+  baseQuery: fetchBaseQuery({
+    baseUrl: API_BASE_URL,
+
+    prepareHeaders: headers => {
+      const token = store?.getState().Auth?.token;
+      console.log('Token Dtaa', token);
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`);
+      }
+      console.log('Header', token);
+      return headers;
+    },
+  }),
+
   endpoints: builder => ({
     SignUp: builder.mutation({
       query: userData => ({
         url: '/user/userSignup',
         method: 'POST',
-        headers: 'content-type: application/json',
         body: userData,
       }),
     }),
@@ -18,7 +31,6 @@ export const Auth = createApi({
       query: userData => ({
         url: '/user/userSignin',
         method: 'POST',
-        headers: 'content-type: application/json',
         body: userData,
       }),
     }),
@@ -27,7 +39,6 @@ export const Auth = createApi({
       query: userData => ({
         url: '/user/setMode',
         method: 'POST',
-        headers: 'content-type: application/json',
         body: userData,
       }),
     }),
@@ -35,16 +46,20 @@ export const Auth = createApi({
       query: userData => ({
         url: '/user/createCompany',
         method: 'POST',
-        headers: 'content-type: application/json',
         body: userData,
       }),
     }),
-    // ConfirmPassword: builder.mutation({
-    //   query: userData => ({
-    //     url: '/UpdatePassword',
-    //     method: 'POST',
-    //     headers: 'content-type: application/json',
-    //     body: userData,
+    GetCompanies: builder.mutation({
+      query: () => ({
+        url: '/user/getCompanies',
+        method: 'GET',
+      }),
+    }),
+    // GetCompanies: builder.query({
+    //   query: () => ({
+    //     url: '/user/getCompanies',
+    //     method: 'GET',
+    //     credentials: 'include',
     //   }),
     // }),
   }),
@@ -55,4 +70,6 @@ export const {
   useSignInMutation,
   useSetModeMutation,
   useCreateCompanyMutation,
+  useGetCompaniesMutation,
+  // useGetCompaniesQuery,
 } = Auth;

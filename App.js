@@ -5,12 +5,13 @@ import {useSelector} from 'react-redux';
 import MainStack from './src/navigation/mainStack';
 
 const App = () => {
-  const token = useSelector(state => state?.Auth?.data?.token);
-  console.log('In app screen:', token);
+  const user = useSelector(state => state?.Auth);
+
+  console.log('In app screen:', user);
+
   return (
     <NavigationContainer>
-      {token ? <MainStack /> : <AuthStack />}
-      {/* <AuthStack /> */}
+      {user.token && user.mode ? <MainStack /> : <AuthStack />}
     </NavigationContainer>
   );
 };

@@ -23,18 +23,18 @@ import ToastMessage from '../Hooks/ToastMessage';
 import {checkMinLength, validateEmail} from '../utils/validations';
 import {useSignInMutation} from '../store/API/userAuth';
 import {logo} from '../utils/ImageLinks';
-import {IsLogin} from '../store/Reducers/AuthSlice';
+import {IsLogin, login} from '../store/Reducers/AuthSlice';
 const LogIn = ({}) => {
   const dispatch = useDispatch();
   const {Toasts} = ToastMessage();
   const [value, setvalue] = useState({
-    Email: 'tester2@gmail.com',
+    Email: 'test@gmail.com',
     Pass: '123456789',
   });
   const navigation = useNavigation();
   const [Login, {isLoading}] = useSignInMutation();
-  const dd = useSelector(state => state);
-  console.log('Redux', dd);
+  const userData = useSelector(state => state?.Auth);
+  console.log('ReduxData in login screen', userData);
 
   //---------------USER LOGIN FUNCTION---------------
   const isUserLogin = async () => {
@@ -43,12 +43,13 @@ const LogIn = ({}) => {
         email: value.Email,
         password: value.Pass,
       };
+
       if (!validateEmail(value.Email)) {
         return Toasts(
           'Error',
           'Please enter a valid email address',
           'error',
-          2000,
+          4000,
         );
       }
 
@@ -57,20 +58,33 @@ const LogIn = ({}) => {
           'Error',
           'Password must be at least 8 characters long',
           'error',
-          2000,
+          4000,
         );
       }
+
       const res = await Login(payload);
+      console.log('Login Data from backend:', res);
 
       if (res?.data) {
-        Toasts('Loged In', res.data?.message, 'success', 2000);
-        dispatch(IsLogin({token: res?.data.token}));
+        const userData = {
+          token: res?.data?.token,
+          email: res?.data?.user?.email,
+          mode: res?.data?.user?.mode || '',
+          name: res?.data?.user?.name,
+          companies: res?.data?.user?.companies,
+        };
+        dispatch(login(userData));
+        Toasts('Logged In', res.data?.message, 'success', 4000);
+        if (!userData.mode) {
+          navigation.replace('Modes');
+        } else {
+          navigation.replace('Home');
+        }
       } else if (res?.error) {
-        Toasts('Error', res.error?.data?.message, 'error', 2000);
+        Toasts('Error', res.error?.data?.message, 'error', 4000);
       }
     } catch (error) {
-      console.log('error in signIn:', error);
-      // Toasts('Error', error, 'error', 2000);
+      console.log('Error in signIn:', error);
     }
   };
 
