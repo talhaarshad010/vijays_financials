@@ -15,13 +15,15 @@ import MyButton from '../components/CustomButton';
 import ToastMessage from '../Hooks/ToastMessage';
 import {useVerifyOtpMutation} from '../store/API/userAuth';
 import {logo} from '../utils/ImageLinks';
-const OTP = ({navigation, route}) => {
-  // const {email} = route.params;
+import {useNavigation} from '@react-navigation/native';
+const OTP = ({route}) => {
+  const {email} = route.params;
   const [otp, setOtp] = useState('');
-  const [Email, setEmail] = useState();
+  const [Email, setEmail] = useState(email);
+  const navigation = useNavigation();
   const {Toasts} = ToastMessage();
-  // const [VerifyOtp] = useVerifyOtpMutation();
-
+  const [VerifyOtp, {isLoading}] = useVerifyOtpMutation();
+  console.log('Email in verify otp:', Email);
   // const CodeVerify = async () => {
   //   try {
   //     let payload = {
@@ -51,22 +53,22 @@ const OTP = ({navigation, route}) => {
 
     try {
       let payload = {
-        userEmail: Email,
+        email: Email,
         otp: otp,
       };
 
       // Call the OTP verification function
       const res = await VerifyOtp(payload);
+      console.log('responce in verify otp:', res);
 
-      if (res?.data?.success) {
-        // Success case
+      if (res?.data) {
         Toasts(
           'INFO',
-          res.data.message || 'OTP verified successfully',
+          res?.data?.message || 'OTP verified successfully',
           'info',
           4000,
         );
-        navigation.navigate('ConfirmPassword', {otp: otp, userEmail: Email});
+        navigation.navigate('ConfirmPassword', {otp: otp, email: Email});
       } else {
         // Failure case (API response success = false)
         Toasts(
@@ -167,9 +169,10 @@ const OTP = ({navigation, route}) => {
 
             <View>
               <MyButton
+                isLoading={isLoading}
                 onPress={() => {
-                  // CodeVerify();
-                  navigation.navigate('ConfirmPassword');
+                  CodeVerify();
+                  // navigation.navigate('ConfirmPassword');
                 }}
                 fontWeight={'bold'}
                 color={Colors.white}

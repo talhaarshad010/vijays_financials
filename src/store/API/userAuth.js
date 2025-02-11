@@ -62,6 +62,20 @@ export const Auth = createApi({
         body: userData,
       }),
     }),
+    VerifyOtp: builder.mutation({
+      query: userData => ({
+        url: '/user/VerifyOtp',
+        method: 'POST',
+        body: userData,
+      }),
+    }),
+    UpdatePassword: builder.mutation({
+      query: userData => ({
+        url: '/user/UpdatePassword',
+        method: 'POST',
+        body: userData,
+      }),
+    }),
   }),
 });
 
@@ -72,4 +86,6 @@ export const {
   useCreateCompanyMutation,
   useGetCompaniesMutation,
   useForgetPasswordMutation,
+  useVerifyOtpMutation,
+  useUpdatePasswordMutation,
 } = Auth;

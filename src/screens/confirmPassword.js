@@ -5,25 +5,22 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import Entypo from 'react-native-vector-icons/Entypo';
 import Colors from '../Styles/Colors';
 import WrapperContainer from '../components/WrapperContainer';
-import MyHeader from '../components/Header';
 import MyText from '../components/TextComponent';
 import MyTextInput from '../components/TextInputComponent';
 import MyButton from '../components/CustomButton';
-import {AxiosBaseUrl} from '../config/axiosBaseUrl';
 import {checkMinLength} from '../utils/validations';
 import ToastMessage from '../Hooks/ToastMessage';
-import {useConfirmPasswordMutation} from '../store/Reducers/CallingProducts';
 import {logo} from '../utils/ImageLinks';
+import {useUpdatePasswordMutation} from '../store/API/userAuth';
 const ConfirmPassword = ({navigation, route}) => {
-  // const {otp, userEmail} = route.params;
-  // console.log('data from route:', otp, userEmail);
+  const {otp, email} = route.params;
+  console.log('data from route:', otp, email);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const {Toasts} = ToastMessage();
-  // const [ConfirmPassword] = useConfirmPasswordMutation();
+  const [ConfirmPassword, {isLoading}] = useUpdatePasswordMutation();
   const updatePassword = async () => {
     try {
       if (password === confirmPassword) {
@@ -40,16 +37,17 @@ const ConfirmPassword = ({navigation, route}) => {
           );
         }
         let payload = {
-          userEmail: userEmail,
+          email: email,
           otp: otp,
           newPassword: newPassword,
         };
         const res = await ConfirmPassword(payload);
-        if (res.data.success) {
-          Toasts('INFO', res.data.message, 'info', 4000);
-          navigation.navigate('LogIn');
+        console.log('responce in confirm password:', res);
+        if (res?.data) {
+          Toasts('INFO', res?.data?.message, 'info', 4000);
+          navigation.navigate('Login');
         } else {
-          Toasts('INFO', res.data.message, 'info', 4000);
+          Toasts('INFO', res?.data?.message, 'info', 4000);
         }
       } else {
         Toasts('INFO', 'Password must be same!', 'error', 4000);
@@ -57,7 +55,7 @@ const ConfirmPassword = ({navigation, route}) => {
     } catch (error) {
       console.log(
         'Error occurred at confirm password:',
-        error.response ? error.response.data : error.message,
+        error?.response ? error?.response?.data : error?.message,
       );
       Toasts('Error', 'Something went wrong, please try again.', 'error', 4000);
     }
@@ -111,8 +109,9 @@ const ConfirmPassword = ({navigation, route}) => {
 
             <View>
               <MyButton
+                isLoading={isLoading}
                 onPress={() => {
-                  // updatePassword();
+                  updatePassword();
                 }}
                 fontWeight={'bold'}
                 color={Colors.white}
