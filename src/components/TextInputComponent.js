@@ -28,7 +28,7 @@ const MyTextInput = ({
   props,
   feildName,
 }) => {
-  const [isShow, setIsShow] = useState(false);
+  const [isShow, setIsShow] = useState(true);
   useEffect(() => {
     setTimeout(() => {
       SplashScreen.hide();

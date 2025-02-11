@@ -28,8 +28,8 @@ const LogIn = ({}) => {
   const dispatch = useDispatch();
   const {Toasts} = ToastMessage();
   const [value, setvalue] = useState({
-    Email: 'test@gmail.com',
-    Pass: '123456789',
+    Email: '',
+    Pass: '',
   });
   const navigation = useNavigation();
   const [Login, {isLoading}] = useSignInMutation();
@@ -101,30 +101,6 @@ const LogIn = ({}) => {
               }}>
               <Image style={styles.Logo} source={logo} />
             </View>
-            {/* <View>
-              <MyText
-                fontSize={responsiveFontSize(3.5)}
-                fontWeight={'bold'}
-                color={Colors.black}
-                textStyle={styles.HelloAgain}
-                text={'Hello Again!'}
-                onPress={() => {
-                  navigation.navigate('Mubi');
-                }}
-              />
-              <MyText
-                fontSize={responsiveFontSize(2)}
-                textStyle={styles.slogan}
-                text={'Welcome Back You’ve Been Missed!'}
-              />
-            </View> */}
-            {/* <MyText
-              fontSize={responsiveFontSize(3.5)}
-              fontWeight={'bold'}
-              color={Colors.black}
-              textStyle={styles.HelloAgain}
-              text={'SignIn'}
-            /> */}
             <View style={styles.cont_01_01}>
               <View>
                 <MyTextInput
