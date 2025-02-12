@@ -111,7 +111,7 @@ const SignUp = () => {
               <MyTextInput
                 onChangeText={setemail}
                 value={email}
-                placeholder={'Enter e-mail or password'}
+                placeholder={'Enter e-mail'}
                 feildName={'Email Address'}
                 textstyle={{fontSize: responsiveFontSize(1.5)}}
               />

@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, TextInput, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Colors from '../Styles/Colors';
 import {
@@ -28,7 +22,7 @@ const MyTextInput = ({
   props,
   feildName,
 }) => {
-  const [isShow, setIsShow] = useState(true);
+  const [isShow, setIsShow] = useState(false);
   useEffect(() => {
     setTimeout(() => {
       SplashScreen.hide();

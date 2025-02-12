@@ -104,7 +104,7 @@ const LogIn = ({}) => {
             <View style={styles.cont_01_01}>
               <View>
                 <MyTextInput
-                  placeholder={'Enter e-mail or password'}
+                  placeholder={'Enter e-mail'}
                   feildName={'Email Address'}
                   textstyle={{fontSize: responsiveFontSize(1.5)}}
                   value={value.Email}

@@ -32,10 +32,15 @@ const RecoveryPassword = () => {
       };
       const response = await ForgetPassword(payload);
       console.log('responce in recovery password:', response);
-      Toasts('Otp Sent!', response?.data?.message, 'info', 5000);
-      navigation.navigate('OTP', {
-        email: email,
-      });
+      if (response?.data) {
+        Toasts('Otp Sent!', response?.data?.message, 'info', 5000);
+        navigation.navigate('OTP', {
+          email: email,
+        });
+      }
+      if (response?.error) {
+        Toasts('Error!', response?.error?.data?.message, 'info', 5000);
+      }
     } catch (error) {
       Toasts('Error', 'Email Not Exist', 'error', 5000);
     }
@@ -76,7 +81,7 @@ const RecoveryPassword = () => {
                 setEmail(text);
               }}
               autoCapitalize="none"
-              placeholder={'Enter e-mail or password'}
+              placeholder={'Enter e-mail'}
               feildName={'Email Address'}
               textstyle={{fontSize: responsiveFontSize(1.2)}}
             />
