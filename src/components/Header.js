@@ -9,6 +9,7 @@ import Colors from '../Styles/Colors';
 import MyText from './TextComponent';
 import {BackIcon} from '../utils/shortCuts'; // BackIcon is now a component
 import {logo} from '../utils/ImageLinks';
+import {useSelector} from 'react-redux';
 
 const MyHeader = ({
   ScreenName,
@@ -18,8 +19,16 @@ const MyHeader = ({
   onPressleft = () => {},
   onPressright = () => {},
 }) => {
+  const theme = useSelector(state => state?.Theme?.currentTheme);
+  const isDarkMode = theme === 'dark';
+
   return (
-    <View style={[styles.header, style]}>
+    <View
+      style={[
+        styles.header,
+        {backgroundColor: isDarkMode ? '#121212' : '#fff'},
+        style,
+      ]}>
       {/* Conditionally render Left View (Back Icon) */}
       {showLeftIcon && (
         <TouchableOpacity onPress={onPressleft} style={styles.sideView}>
@@ -30,7 +39,6 @@ const MyHeader = ({
       {/* Screen Name (Always Centered) */}
       <View style={styles.centerView}>
         <MyText
-          color={Colors.black}
           fontWeight="bold"
           text={ScreenName}
           fontSize={responsiveFontSize(2.5)}

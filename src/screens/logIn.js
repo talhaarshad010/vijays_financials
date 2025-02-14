@@ -24,6 +24,8 @@ import {checkMinLength, validateEmail} from '../utils/validations';
 import {useSignInMutation} from '../store/API/userAuth';
 import {logo} from '../utils/ImageLinks';
 import {IsLogin, login} from '../store/Reducers/AuthSlice';
+import MySwitch from '../components/switch';
+import {setTheme, toggleTheme} from '../store/Reducers/appTheme';
 const LogIn = ({}) => {
   const dispatch = useDispatch();
   const {Toasts} = ToastMessage();
@@ -34,6 +36,7 @@ const LogIn = ({}) => {
   const navigation = useNavigation();
   const [Login, {isLoading}] = useSignInMutation();
   const userData = useSelector(state => state?.Auth);
+  const theme = useSelector(state => state?.Theme?.currentTheme);
   console.log('ReduxData in login screen', userData);
 
   //---------------USER LOGIN FUNCTION---------------
@@ -88,9 +91,29 @@ const LogIn = ({}) => {
     }
   };
 
+  const handleThemeToggle = () => {
+    dispatch(setTheme());
+  };
+
   return (
     <WrapperContainer>
       <SafeAreaView>
+        <TouchableOpacity onPress={handleThemeToggle}>
+          <Image
+            tintColor={theme === 'dark' ? '#fff' : '#000'}
+            resizeMode={theme === 'light' ? 'contain' : 'contain'}
+            style={{
+              height:
+                theme === 'dark' ? responsiveHeight(5) : responsiveHeight(5),
+              width: responsiveWidth(10),
+            }}
+            source={
+              theme === 'dark'
+                ? require('../assets/Images/lightMode.png')
+                : require('../assets/Images/darkMode.png')
+            }
+          />
+        </TouchableOpacity>
         <ScrollView>
           <View style={styles.cont_01}>
             <View

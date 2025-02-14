@@ -1,6 +1,6 @@
 import {StyleSheet, Text} from 'react-native';
 import React from 'react';
-import Colors from '../Styles/Colors';
+import {useSelector} from 'react-redux';
 
 const MyText = ({
   text,
@@ -11,10 +11,20 @@ const MyText = ({
   onPress,
   children,
 }) => {
+  const theme = useSelector(state => state?.Theme?.currentTheme);
+  const isDarkMode = theme === 'dark';
+
   return (
     <Text
       onPress={onPress}
-      style={[textStyle, {fontSize}, {color}, {fontWeight}]}
+      style={[
+        textStyle,
+        {
+          fontSize,
+          color: color || (isDarkMode ? 'white' : 'black'), // Apply theme color
+          fontWeight,
+        },
+      ]}
       allowFontScaling={false}>
       {text} {children}
     </Text>
@@ -22,5 +32,3 @@ const MyText = ({
 };
 
 export default MyText;
-
-const styles = StyleSheet.create({});
