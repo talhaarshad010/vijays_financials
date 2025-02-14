@@ -60,7 +60,6 @@ const RecoveryPassword = () => {
           </View>
           <View style={styles.recover}>
             <MyText
-              color={Colors.black}
               fontWeight={'bold'}
               fontSize={responsiveFontSize(3.5)}
               textStyle={styles.HelloAgain}

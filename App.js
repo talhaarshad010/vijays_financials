@@ -7,7 +7,9 @@ import SplashScreen from 'react-native-splash-screen';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 const App = () => {
   const user = useSelector(state => state?.Auth);
+  const theme = useSelector(state => state?.Theme?.currentTheme);
   console.log('In app screen:', user);
+  console.log('app theme:', theme);
 
   useEffect(() => {
     setTimeout(() => {
